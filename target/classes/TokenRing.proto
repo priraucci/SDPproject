@@ -1,0 +1,43 @@
+syntax = "proto2";
+option java_multiple_files = true;
+option java_package = "it.grpc.tokenRing";
+option java_outer_classname = "TokenRingProto";
+
+service TokenRing{
+  //streaming bidirezinale per l'invio-ricezione dei token e la gestione dell'uscita
+  rpc sendToken(stream Token) returns (Ack) {}
+
+  // RPC semplice per l'avviso di ingresso dalla rete
+  rpc noticeEntrace(Entrance) returns (Ack) {}
+
+  // RPC semplice per l'avviso di ingresso dalla rete
+  rpc noticeExit(Exit) returns (Ack) {}
+}
+
+message Token{
+  repeated double measurement = 1;
+  optional string timestamp = 2;
+  optional string idsender = 3;
+}
+
+message Ack{
+  required bool ack = 1;
+  optional Node followingN = 2;
+}
+
+message Node{
+  required string id = 1;
+  required string ip = 2;
+  required int32 port = 3;
+}
+
+message Entrance{
+  required Node senderN = 1;
+  required bool succ = 2;
+}
+
+message Exit{
+  required Node previousN = 1;
+  required Node followingN = 2;
+  required Node senderN = 3;
+}

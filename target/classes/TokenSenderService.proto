@@ -1,0 +1,13 @@
+/*syntax = "proto2";
+option java_multiple_files = true;
+option java_package = "it.grpc.TokenSenderService";
+
+service TokenSenderService {
+  rpc sendToken(stream Token) returns (Ack){}
+}
+message Token{
+  repeated double measurement = 1;
+}
+message Ack{
+  required bool ack = 1;
+}*/
